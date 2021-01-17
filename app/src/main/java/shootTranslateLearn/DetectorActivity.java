@@ -18,6 +18,8 @@ import android.util.Size;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Toast;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -283,11 +285,15 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
       matchToSend.putString("image",currentMatch);
       Log.d("Scott", currentMatch);
 
+      Bitmap bmp = croppedBitmap;
+      ByteArrayOutputStream stream = new ByteArrayOutputStream();
+      bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+      byte[] byteArray = stream.toByteArray();
+
       Intent intent = new Intent(this, TranslateActivity.class);
       intent.putExtras(matchToSend);
+      intent.putExtra("BITMAP", byteArray);
       startActivity(intent);
-
-
     }
   }
 }
