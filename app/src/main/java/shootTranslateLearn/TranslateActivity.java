@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import android.speech.tts.TextToSpeech;
@@ -67,6 +69,11 @@ public class TranslateActivity extends AppCompatActivity {
 
         selected.setText(detectedObject);
         translate_bttn.setEnabled(false);
+      
+        Intent intent = getIntent();
+        byte[] byteArray = intent.getByteArrayExtra("BITMAP");
+        Bitmap capturedImage = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+        image.setImageBitmap(capturedImage);
 
         String[] languages = {"Choose language", "French", "German", "Japanese"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, languages);
