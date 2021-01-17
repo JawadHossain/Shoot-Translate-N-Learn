@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "593177089036",
+    "project_id": "shoottranslatelearn",
+    "storage_bucket": "shoottranslatelearn.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:593177089036:android:35e228b48b568bd0fd4a29",
+        "android_client_info": {
+          "package_name": "com.shootTranslateLearn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "593177089036-sro8egom2l5od0vcnc14g2che4f2fhg2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYpF5SPPjAvORxYENCelgMDVFeXxkKYxk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "593177089036-sro8egom2l5od0vcnc14g2che4f2fhg2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

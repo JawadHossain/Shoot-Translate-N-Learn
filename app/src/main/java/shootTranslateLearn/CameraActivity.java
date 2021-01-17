@@ -74,6 +74,7 @@ public abstract class CameraActivity extends AppCompatActivity
   private SwitchCompat apiSwitchCompat;
   private TextView threadsTextView;
   private Button capture_button;
+  private Button save_word_button;
 
   @Override
   protected void onCreate(final Bundle savedInstanceState) {
@@ -101,6 +102,7 @@ public abstract class CameraActivity extends AppCompatActivity
     sheetBehavior = BottomSheetBehavior.from(bottomSheetLayout);
     bottomSheetArrowImageView = findViewById(R.id.bottom_sheet_arrow);
     capture_button = findViewById(R.id.capture);
+    save_word_button = findViewById(R.id.view_saved_button);
 
     ViewTreeObserver vto = gestureLayout.getViewTreeObserver();
     vto.addOnGlobalLayoutListener(
@@ -158,6 +160,7 @@ public abstract class CameraActivity extends AppCompatActivity
     plusImageView.setOnClickListener(this);
     minusImageView.setOnClickListener(this);
     capture_button.setOnClickListener(this);
+    save_word_button.setOnClickListener(this);
   }
 
   protected int[] getRgbBytes() {

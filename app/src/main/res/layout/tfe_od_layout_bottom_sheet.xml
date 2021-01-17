@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingTop="10dp"
-        android:paddingBottom="20dp">
+        android:paddingBottom="10dp">
 
         <ImageView
             android:id="@+id/bottom_sheet_arrow"
@@ -26,6 +26,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:src="@drawable/icn_chevron_up" />
+
+        <Button
+            android:id="@+id/capture"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:background="@drawable/rounded_button"
+            android:textColor="@android:color/white"
+            android:text="Capture" />
 
     </LinearLayout>
 
@@ -100,6 +108,22 @@
             android:textColor="@android:color/black" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/view_saved_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/rounded_button"
+            android:textColor="@android:color/white"
+            android:text="View Saved Words" />
+    </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
@@ -149,11 +173,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_baseline_add"/>
-            <Button
-                android:id="@+id/capture"
-                android:layout_width="match_parent"
-                android:layout_height="49dp"
-                android:text="Capture" />
+
                 />
         </LinearLayout>
     </RelativeLayout>
