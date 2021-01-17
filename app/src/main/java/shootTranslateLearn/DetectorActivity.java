@@ -18,6 +18,8 @@ import android.util.Size;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Toast;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -213,15 +215,6 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
 
             computingDetection = false;
 
-            runOnUiThread(
-                new Runnable() {
-                  @Override
-                  public void run() {
-                    showFrameInfo(previewWidth + "x" + previewHeight);
-                    showCropInfo(cropCopyBitmap.getWidth() + "x" + cropCopyBitmap.getHeight());
-                    showInference(lastProcessingTimeMs + "ms");
-                  }
-                });
           }
         });
   }
@@ -276,17 +269,30 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
   @Override
   public void onClick(View v) {
 
-    if (v.getId() == R.id.capture) {
+    switch (v.getId()){
+      case R.id.capture:
+        Bundle matchToSend = new Bundle();
+        matchToSend.putString("image",currentMatch);
+        Log.d("Scott", currentMatch);
 
-      Bundle matchToSend = new Bundle();
-      matchToSend.putString("image",currentMatch);
-      Log.d("Scott", currentMatch);
+        Bitmap bmp = croppedBitmap;
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
 
-      Intent intent = new Intent(this, TranslateActivity.class);
-      intent.putExtras(matchToSend);
-      startActivity(intent);
+        Intent intent = new Intent(this, TranslateActivity.class);
+        intent.putExtras(matchToSend);
+        intent.putExtra("BITMAP", byteArray);
+        startActivity(intent);
 
+        break;
 
+      case R.id.view_saved_button:
+        Log.d("Michelle", "ViewSaveWords");
+        Intent intent2 = new Intent(DetectorActivity.this, ViewSavedWords.class);
+        startActivity(intent2);
+
+        break;
     }
   }
 }
