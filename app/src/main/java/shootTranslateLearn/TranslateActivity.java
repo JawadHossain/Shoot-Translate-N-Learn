@@ -95,14 +95,11 @@ public class TranslateActivity extends AppCompatActivity
                         .setTargetLanguage(TranslateLanguage.GERMAN)
                         .build();
 
-        progressBar.setVisibility(View.VISIBLE);
-
 
         speakButton = findViewById(R.id.imageButton);
         saveButton = findViewById(R.id.saveButton);
         firebaseFirestore = FirebaseFirestore.getInstance();
         spinner = findViewById(R.id.language_spinner);
-        progressBar = findViewById(R.id.progressBar);
 
         selected.setText(detectedObject);
         translate_bttn.setEnabled(false);
@@ -213,6 +210,10 @@ public class TranslateActivity extends AppCompatActivity
                                     Log.d("Michelle", "word_info not added");
                                 }
                             });
+                }
+                else{
+                    Toast.makeText(TranslateActivity.this, "Unable to save word that has not been translated.",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });
