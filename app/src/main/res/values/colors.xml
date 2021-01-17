@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="tfe_color_primary">#ffa800</color>
-    <color name="tfe_color_primary_dark">#ff6f00</color>
-    <color name="tfe_color_accent">#425066</color>
-
+    <color name="tfe_color_primary">#6200EE</color>
+    <color name="tfe_color_primary_dark">#3700B3</color>
+    <color name="tfe_color_accent">#03DAC5</color>
     <color name="tfe_semi_transparent">#66000000</color>
+    <color name="purple_cancel">#6558F5</color>
+    <color name="deep_purple">#581845</color>
+    <color name="light_purple">#A384AE</color>
+    <color name="salmon">#D86E86</color>
+    <color name="red">#C21C29</color>
+    <color name="mutedRed">#951D04</color>
+    <color name="green">#88C51C</color>
+    <color name="muted_green">#9EC25F</color>
+    <color name="light_grey">#E0E0E0</color>
 </resources>
