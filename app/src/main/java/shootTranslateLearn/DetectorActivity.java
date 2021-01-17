@@ -1,5 +1,6 @@
 package shootTranslateLearn;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
@@ -10,10 +11,12 @@ import android.graphics.Paint.Style;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.media.ImageReader.OnImageAvailableListener;
+import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
 import android.util.Size;
 import android.util.TypedValue;
+import android.view.View;
 import android.widget.Toast;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -270,5 +273,21 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                 });
           }
         });
+  }
+  @Override
+  public void onClick(View v) {
+
+    if (v.getId() == R.id.capture) {
+
+      Bundle matchToSend = new Bundle();
+      matchToSend.putString("image",currentMatch);
+      Log.d("Scott", currentMatch);
+
+      Intent intent = new Intent(this, TranslateActivity.class);
+      intent.putExtras(matchToSend);
+      startActivity(intent);
+
+
+    }
   }
 }
