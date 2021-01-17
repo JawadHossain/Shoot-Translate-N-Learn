@@ -2,6 +2,9 @@ package shootTranslateLearn;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
@@ -33,6 +36,11 @@ public class TranslateActivity extends AppCompatActivity {
         translate_bttn = findViewById(R.id.translate_button);
         translated = findViewById(R.id.output_textview);
         speakButton = findViewById(R.id.imageButton);
+
+        Intent intent = getIntent();
+        byte[] byteArray = intent.getByteArrayExtra("BITMAP");
+        Bitmap capturedImage = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+        image.setImageBitmap(capturedImage);
 
         textToSpeech = new TextToSpeech(getApplicationContext(),
                 new TextToSpeech.OnInitListener() {
