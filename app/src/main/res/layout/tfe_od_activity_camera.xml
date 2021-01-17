@@ -49,4 +49,6 @@
         app:layout_anchor="@+id/relativeLayout"
         app:layout_anchorGravity="center"
         tools:context="org.tensorflow.demo.CameraActivity" />
+
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

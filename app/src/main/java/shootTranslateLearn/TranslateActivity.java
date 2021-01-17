@@ -4,6 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -31,10 +36,20 @@ import com.google.mlkit.nl.translate.Translation;
 import com.google.mlkit.nl.translate.Translator;
 import com.google.mlkit.nl.translate.TranslatorOptions;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.mlkit.common.model.DownloadConditions;
+import com.google.mlkit.nl.translate.TranslateLanguage;
+import com.google.mlkit.nl.translate.Translation;
+import com.google.mlkit.nl.translate.Translator;
+import com.google.mlkit.nl.translate.TranslatorOptions;
+
 import org.tensorflow.lite.examples.detection.R;
 
 import java.util.HashMap;
 import java.util.Locale;
+
+
 
 public class TranslateActivity extends AppCompatActivity
 {
@@ -43,12 +58,12 @@ public class TranslateActivity extends AppCompatActivity
     private ImageView image;
     private Button translate_bttn;
     private TextView translated;
+    private ProgressBar progressBar;
     private ImageButton speakButton;
     private TextToSpeech textToSpeech;
     private Button saveButton;
 
     private FirebaseFirestore firebaseFirestore;
-    private ProgressBar progressBar;
     private Spinner spinner;
     private String targetLangCode;
     private String targetLang;
@@ -71,6 +86,18 @@ public class TranslateActivity extends AppCompatActivity
         image = findViewById(R.id.imageView2);
         translate_bttn = findViewById(R.id.translate_button);
         translated = findViewById(R.id.output_textview);
+        progressBar = findViewById(R.id.progressBar);
+        selected.setText(detectedObject);
+
+        TranslatorOptions options =
+                new TranslatorOptions.Builder()
+                        .setSourceLanguage(TranslateLanguage.ENGLISH)
+                        .setTargetLanguage(TranslateLanguage.GERMAN)
+                        .build();
+
+        progressBar.setVisibility(View.VISIBLE);
+
+
         speakButton = findViewById(R.id.imageButton);
         saveButton = findViewById(R.id.saveButton);
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -163,33 +190,30 @@ public class TranslateActivity extends AppCompatActivity
         saveButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(View v)
-            {
-                HashMap<String, String> word_info = new HashMap<>();
-                word_info.put("original_word", originalWord);
-                word_info.put("target_language", targetLang);
-                word_info.put("translated_word", translation);
-                firebaseFirestore.collection("words")
-                        .document()
-                        .set(word_info)
-                        .addOnSuccessListener(new OnSuccessListener<Void>()
-                        {
-                            @Override
-                            public void onSuccess(Void aVoid)
-                            {
-                                Log.d("Michelle", "word_info has been added successfully");
-                                Toast.makeText(TranslateActivity.this, "Word saved!",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener()
-                        {
-                            @Override
-                            public void onFailure(@NonNull Exception e)
-                            {
-                                Log.d("Michelle", "word_info not added");
-                            }
-                        });
+            public void onClick(View v) {
+                if (translation != null && originalWord != null) {
+                    HashMap<String, String> word_info = new HashMap<>();
+                    word_info.put("original_word", originalWord);
+                    word_info.put("target_language", targetLang);
+                    word_info.put("translated_word", translation);
+                    firebaseFirestore.collection("words")
+                            .document()
+                            .set(word_info)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d("Michelle", "word_info has been added successfully");
+                                    Toast.makeText(TranslateActivity.this, "Word saved!",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d("Michelle", "word_info not added");
+                                }
+                            });
+                }
             }
         });
 
@@ -237,12 +261,12 @@ public class TranslateActivity extends AppCompatActivity
                                                         progressBar.setVisibility(View.GONE);
                                                         translated.setText(translatedText);
                                                         Log.d("Jawad", translatedText.toString() + "hello");
+
                                                     }
 
                                                 })
                                         .addOnFailureListener(
-                                                new OnFailureListener()
-                                                {
+                                                new OnFailureListener() {
                                                     @Override
                                                     public void onFailure(@NonNull Exception e)
                                                     {
@@ -256,14 +280,14 @@ public class TranslateActivity extends AppCompatActivity
                             }
                         })
                 .addOnFailureListener(
-                        new OnFailureListener()
-                        {
+                        new OnFailureListener() {
                             @Override
-                            public void onFailure(@NonNull Exception e)
-                            {
-                                progressBar.setVisibility(View.GONE);
+                            public void onFailure(@NonNull Exception e) {
                                 Log.d(TAG, "Model couldn’t be downloaded or other internal error.");
+                                progressBar.setVisibility(View.GONE);
                             }
                         });
+
     }
+
 }
