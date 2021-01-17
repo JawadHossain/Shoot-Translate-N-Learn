@@ -45,6 +45,8 @@ public class TranslateActivity extends AppCompatActivity {
     private String targetLang;
     private Locale localeLang;
     private String detectedObject;
+    private String translation;
+    private Translator translator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +68,7 @@ public class TranslateActivity extends AppCompatActivity {
         selected.setText(detectedObject);
         translate_bttn.setEnabled(false);
 
-        String[] languages = {"Choose language", "French", "German", "Spanish"};
+        String[] languages = {"Choose language", "French", "German", "Japanese"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, languages);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -80,13 +82,26 @@ public class TranslateActivity extends AppCompatActivity {
                     targetLang = TranslateLanguage.GERMAN;
                     localeLang = Locale.GERMAN;
                 } else {
-                    targetLang = TranslateLanguage.SPANISH;
-                    localeLang = Locale.GERMAN;
+                    targetLang = TranslateLanguage.JAPANESE;
+                    localeLang = Locale.JAPANESE;
                 }
 
                 if (!language.equals("Choose language")) {
                     translate_bttn.setEnabled(true);
+                    translator = null;
                 }
+
+                // Set textToSpeech language option for locale
+                textToSpeech = new TextToSpeech(getApplicationContext(),
+                        new TextToSpeech.OnInitListener() {
+                            @Override
+                            public void onInit(int status) {
+                                if (status == TextToSpeech.SUCCESS) {
+                                    int lang = textToSpeech.setLanguage(localeLang);
+                                    textToSpeech.setSpeechRate((float) 0.8);
+                                }
+                            }
+                        });
 
                 TranslatorOptions options =
                         new TranslatorOptions.Builder()
@@ -94,10 +109,7 @@ public class TranslateActivity extends AppCompatActivity {
                                 .setTargetLanguage(targetLang)
                                 .build();
 
-                final Translator translator = Translation.getClient(options);
-
-                progressBar.setVisibility(View.VISIBLE);
-                translateText(translator);
+                translator = Translation.getClient(options);
             }
 
             @Override
@@ -106,28 +118,20 @@ public class TranslateActivity extends AppCompatActivity {
             }
         });
 
-        textToSpeech = new TextToSpeech(getApplicationContext(),
-                new TextToSpeech.OnInitListener() {
-                    @Override
-                    public void onInit(int status) {
-                        if (status == TextToSpeech.SUCCESS) {
-                            int lang = textToSpeech.setLanguage(localeLang);
-                            textToSpeech.setSpeechRate((float) 0.5);
-                        }
-                    }
-                });
-
         speakButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int speak = textToSpeech.speak("apple", TextToSpeech.QUEUE_FLUSH, null);
+                int speak = textToSpeech.speak(translation, TextToSpeech.QUEUE_FLUSH, null);
             }
         });
 
         translate_bttn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (translator != null) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    translateText(translator);
+                }
             }
         });
 
@@ -155,9 +159,10 @@ public class TranslateActivity extends AppCompatActivity {
                                                     @Override
                                                     public void onSuccess(String translatedText)
                                                     {
+                                                        translation = translatedText;
                                                         progressBar.setVisibility(View.GONE);
                                                         translated.setText(translatedText);
-                                                        Log.d("Jawad", translatedText.toString()+"hello");
+                                                        Log.d("Jawad", translatedText.toString() + "hello");
                                                     }
 
                                                 })
