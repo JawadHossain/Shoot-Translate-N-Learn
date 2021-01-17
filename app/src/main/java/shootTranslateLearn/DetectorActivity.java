@@ -178,7 +178,6 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
               String newMatch = result.getTitle();
               if (!newMatch.equals(currentMatch)){
                 currentMatch = newMatch;
-                Log.d("Jawad", results.toString());
               }
               break;
             }
