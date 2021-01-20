@@ -39,7 +39,7 @@ import java.util.Scanner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import shootTranslateLearn.env.ImageUtils;
+import shootTranslateLearn.utility.env.ImageUtils;
 import shootTranslateLearn.tensorflow.lite.examples.detection.tflite.Detector;
 import shootTranslateLearn.tensorflow.lite.examples.detection.tflite.TFLiteObjectDetectionAPIModel;
 
